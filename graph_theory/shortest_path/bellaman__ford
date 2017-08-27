@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>V[100005];
+int dis[100005];
+int main()
+{
+    fill(dis,dis+100005,999);
+    int i,j,x,y,wt;
+    int nodes,edge;
+    cin>>nodes>>edge;
+    for(i=0;i<edge;++i)
+    {
+        cin>>x>>y>>wt;
+        V[i].push_back(x);
+        V[i].push_back(y);
+        V[i].push_back(wt);
+    }
+    dis[1]=0;              //this is the source
+    for(i=0;i<nodes-1;++i)
+    {
+        j=0;
+        while(V[j].size())
+        {
+            if(dis[V[j][0]]+V[j][2]<dis[V[j][1]]) {                //kaha se kaha tak
+                dis[V[j][1]]=dis[V[j][0]]+V[j][2];  }               //distance revise krna hoga
+                ++j;
+        }
+
+    }
+for(i=2;i<=nodes;++i) cout<<dis[i]<<" ";
+
+    return 0;
+}
