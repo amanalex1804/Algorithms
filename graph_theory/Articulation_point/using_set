@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>V[500];
+set<int>AP;
+set<int>::iterator it;
+int nodes,edges,tim=0;
+int dis[500]={0};int vis[500]={0};int low[500];
+int parent[500];
+void DFS(int src)
+{
+ int i;
+    vis[src]=1;                 //AP ke liye..jaha khade hai..uska child sabko...arr koi backedge ko dekhna rehta hai
+    int child=0;
+    dis[src]=++tim;
+    low[src]=tim;
+    for(i=0;i<V[src].size();++i)
+    {
+        int v=V[src][i];
+        if(!vis[v])
+        {
+            parent[v]=src;
+            ++child;
+            DFS(v);
+            low[src]=min(low[src],low[v]);
+            if(parent[src]==-1 and child>1)
+                {AP.insert(src);}
+            else if(parent[src]!=-1 and low[v]>=dis[src])
+                {AP.insert(src);}
+        }
+        else if(parent[src]!=v)
+            low[src]=min(low[src],dis[v]);
+               }
+}
+int main()
+{fill_n(low,500,500);fill_n(parent,500,-1);
+    int x,y,j,i;
+    cin>>nodes>>edges;
+    for(i=0;i<edges;++i)
+    {
+        cin>>x>>y;
+        V[x].push_back(y);
+        V[y].push_back(x);
+    }
+
+    DFS(1);
+    cout<<"Articulation points are:\n";
+  for(it=AP.begin();it!=AP.end();++it) cout<<*it<<" "<<endl;
+return 0;
+}
+/*8
+10
+1 2
+2 3
+4 6
+2 4
+4 5
+5 6
+4 6
+6 7
+4 7
+7 8
+*/
