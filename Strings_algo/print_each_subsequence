@@ -1,0 +1,20 @@
+#include<bits/stdc++.h>
+using namespace std;
+string A="abcd";
+string S="";
+void subset(int index,string S)
+{
+    if(index==4)              //replace 4 with length of string
+    {
+        cout<<S<<" ";
+        return;
+    }
+    subset(index+1,S);
+    subset(index+1,S+A[index]);
+}
+int main()
+{
+    int index=0;
+    subset(index,S);                    //time complexity: 2^l (l=length of string)
+    return 0;
+}
