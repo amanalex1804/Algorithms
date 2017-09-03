@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>V[500],AP;
+int vis[500],parent[500],low[500],dis[500],tim=0;
+void dfs(int src)
+{
+    int i,v,temp=0;
+    bool flag=false;
+    vis[src]=1;
+    dis[src]=++tim;
+    low[src]=tim;
+    for(i=0;i<V[src].size();++i)
+    {
+        v=V[src][i];
+        if(!vis[v])
+        {
+            parent[v]=src;
+            ++temp;
+            dfs(v);
+            low[src]=min(low[src],low[v]);
+            if(low[v]>=dis[src])
+                flag=true;
+    }
+    else if(v!=parent[src]) low[src]=min(low[src],dis[v]);
+    }
+    if(flag and parent[src]!=-1 ) AP.push_back(src);
+    if(parent[src]==-1 and temp>1) AP.push_back(src);
+}
+int main()
+{
+    fill_n(low,500,99);
+    fill_n(parent,500,-1);
+    int nodes,edges,x,y,i,j;
+    cin>>nodes>>edges;
+    for(i=0;i<edges;++i)
+    {
+        cin>>x>>y;
+        V[x].push_back(y);
+        V[y].push_back(x);
+    }
+    dfs(1);
+    cout<<"Articulation points are:\n";
+    for(i=0;i<AP.size();++i) cout<<AP[i]<<" ";
+    return 0;
+}
