@@ -2,7 +2,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 vector<int>V[500],trans[500];
-stack<int>st1;
+stack<int>st1;                           //use vector for optimization
 int vis[500]={0};
 void dfs2(int src)
 {
