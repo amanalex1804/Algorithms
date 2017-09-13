@@ -35,6 +35,7 @@ int main()
         V[x].push_back(y);
         trans[y].push_back(x);
     }
+    cout<<"the adjacency list is:\n";
     for(i=0;i<nodes;++i)
     {
         cout<<i<<"--> ";
@@ -42,11 +43,13 @@ int main()
             cout<<V[i][j]<<" ";
                 cout<<endl;
     }
+    cout<<"the stack will be\n";
     for(i=0;i<nodes;++i)
         if(!vis[i])
        dfs1(i);
         cout<<endl;
         memset(vis,0,sizeof(vis));
+       cout<<"the components are:\n";
    while(!st1.empty())
    {
        q=st1.top();
