@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void merging(int *A,int b1,int e1,int b2,int e2)
+{
+    int p1,p2,q1,q2,i,t1; int m[1000];
+    p1=b1;q1=e1;p2=b2;q2=e2;t1=b1;
+    while(p1<=q1 and p2<=q2){
+        if(A[p1]<A[p2]) m[t1++]=A[p1++];
+        else m[t1++]=A[p2++];}
+    if(p2>q2) while(p1<=q1) m[t1++]=A[p1++];          //right one is exhausted
+    else while(p2<=q2) m[t1++]=A[p2++];                  //left one is exhausted
+        for(i=b1;i<=e2;++i) A[i]=m[i];               //array gets updated
+}
+void mergesort(int *A,int beg,int end)
+{
+    if(beg<end){
+    int mid=(beg+end)/2;
+    mergesort(A,beg,mid);
+    mergesort(A,mid+1,end);
+    merging(A,beg,mid,mid+1,end);}
+}
+int main()
+{
+    int n,i;
+    scanf("%d",&n);          // number of elements
+    int A[n];
+    for(i=0;i<n;++i) scanf("%d",&A[i]);
+    mergesort(A,0,n-1);
+    for(i=0;i<n;++i) cout<<A[i]<<" ";
+    return 0;
+}
