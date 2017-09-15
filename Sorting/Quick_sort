@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+int part(int A[],int l,int r)
+{
+    int pivot,i,j,temp;
+    pivot=A[l];
+    i=l;
+    j=r-1;
+    while(i<j){
+      while(A[i]<=pivot and i<r)
+            ++i;
+        while(A[j]>pivot)
+            --j;
+        if(i<j){            
+            temp=A[i];
+            A[i]=A[j];
+            A[j]=temp;}
+    }
+    A[l]=A[j];          // j abk pivot se kam wale element me aa gya hoga
+    A[j]=pivot;               //replace kro pivot ko
+    
+    return j;}
+void quicksort(int A[],int l,int r)
+{
+    if(l<r)
+    {
+        int p=part(A,l,r);
+        quicksort(A,p+1,r);
+        quicksort(A,0,p-1);
+    }
+}
+int main()
+{
+    int n,i;
+    cout<<"no. of elements:\n";
+    scanf("%d",&n);
+    int A[n];
+    for(i=0;i<n;++i) cin>>A[i];
+    quicksort(A,0,n);
+    for(i=0;i<n;++i) cout<<A[i]<<" ";
+    return 0;
+}
+/*
+Best case: nlgn
+Worst case:n^2
+Avg case: nlgn
+*/
