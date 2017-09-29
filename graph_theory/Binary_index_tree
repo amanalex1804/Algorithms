@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+int BIT[1000],n;
+void update(int pos,int val)
+{
+    for(;pos<=n;pos+=pos&(-pos))
+        BIT[pos]+=val;
+}
+int query(int pos)
+{
+    int sum=0;
+    for(;pos>0;pos-=pos&(-pos))
+        sum+=BIT[pos];
+    return sum;
+}
+int main()
+{
+
+    scanf("%d",&n);
+    int A[n+5],i;  // 1 index array
+    for(i=1;i<=n;++i)
+    {
+        scanf("%d",&A[i]);
+        update(i,A[i]);
+    }
+    cout<<"binary index tree:\n";
+    for(i=1;i<=n;++i) cout<<BIT[i]<<" ";
+    cout<<endl;
+    cout<<query(3)<<endl;
+    cout<<"sum between [3,4] "<<query(4)-query(2);    //important line   
+    return 0;
+}
