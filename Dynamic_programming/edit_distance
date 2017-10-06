@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define T int t;for(scanf("%d",&t);t--;)
+int main()
+{
+    string A,B;int i,j,l1,l2;T{
+    cin>>A>>B;
+    l1=A.size();l2=B.size();
+    int DP[l2+1][l1+1];
+    for(i=0;i<=l2;++i)            //use i-1
+    {
+        for(j=0;j<=l1;++j)
+        {
+            if(!i) DP[i][j]=j;
+            else if(!j) DP[i][j]=i;
+            else if(A[j-1]==B[i-1]) DP[i][j]=DP[i-1][j-1];
+            else DP[i][j]=min(DP[i-1][j],min(DP[i][j-1],DP[i-1][j-1]))+1;
+
+        }
+
+    }
+
+    printf("%d\n",DP[l2][l1]);
+    cout<<"Operations are:\n";
+    i=l2;j=l1;
+    while(1)
+    {
+        if(!i or !j) break;
+        else if(A[j-1]==B[i-1]) {cout<<"NO CHANGE "<<A[j-1]<<endl;--i;--j;}
+        else if(DP[i][j]==DP[i-1][j-1]+1) {cout<<"edited: "<<A[j-1]<<" to "<<B[i-1]<<endl;--i;--j;}
+        else if(DP[i][j]==DP[i-1][j]+1) {cout<<"Deleted element "<<B[i-1]<<endl;i=i-1;}
+        else if(DP[i][j]==DP[i][j-1]+1) {cout<<"deleted element "<<A[j-1]<<endl;j=j-1;}
+
+
+
+    }
+
+
+    }
+
+
+    return 0;
+}
