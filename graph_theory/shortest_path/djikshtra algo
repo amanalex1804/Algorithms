@@ -1,54 +1,48 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define siz 100005
 typedef pair<int,int>P;
-vector<P>V[1000];
-int nodes,dis[10000],vis[10000]={0},weigh,ver,v,i,ww;
-void dijkshtra()
+vector<P>V[siz];
+int dis[siz],vis[siz];
+multiset<P>S;
+void djikshtra(int src)
 {
-    fill(dis,dis+10000,999);
-    dis[1]=0;
-    multiset<P>S;
-    S.insert(make_pair(0,1));
-
+    int i,ver,wt,v2;
+    fill_n(dis,siz,999);
+    dis[src]=0;                   // starting source should be 0
+    S.insert({0,src});        // weight and vertex is inserted in multiset
+    P p,p2;
     while(!S.empty())
     {
-        P p;
         p=*S.begin();
-
         S.erase(S.begin());
-
         ver=p.second;
-        if(vis[ver]==1) continue;
+        if(vis[ver]) continue;
         vis[ver]=1;
-        for(i=0;i<V[ver].size();++i)
+        for(i=0;i<V[ver].size();++i)        //checking all vertex connected to the inserted vertex in multiset
         {
-            v=V[ver][i].first;
-            ww=V[ver][i].second;
-            if(dis[ver]+ww<dis[v])
+            v2=V[ver][i].first;
+            wt=V[ver][i].second;
+            if(dis[ver]+wt<dis[v2])           // checking distances
             {
-
-             dis[v]=dis[ver]+ww;
-
-             S.insert(make_pair(dis[v],v));
-
-                                }
+                dis[v2]=dis[ver]+wt;
+                S.insert({dis[v2],v2});
+            }
         }
     }
-    for(i=2;i<=nodes;++i) cout<<dis[i]<<" ";
 }
 int main()
 {
-    int edge,wt,x,y;
-    cin>>nodes>>edge;
-    for(i=0;i<edge;++i)
+    int nodes,edges,u,v,wt,i,source;
+    scanf("%d%d",&nodes,&edges);
+    for(i=0;i<edges;++i)
     {
-        cin>>x>>y>>wt;
-        V[x].push_back(make_pair(y,wt));
-        V[y].push_back(make_pair(x,wt));
+        scanf("%d%d%d",&u,&v,&wt);
+        V[u].push_back({v,wt});       //assuming directed graph here
     }
+    scanf("%d",&source);
 
-    dijkshtra();
-
-
+    djikshtra(source);
+    for(i=0;i<=nodes;++i) cout<<dis[i]<<" ";  //if nor=t accessible then 999
     return 0;
 }
