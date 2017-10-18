@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define T int t;for(scanf("%d",&t);t--;)
+#define siz 1000000
+#define num 1000000000000000
+
+ll A[siz],f=0,mid;
+ll bin(ll k,ll beg,ll en)
+{
+    if(beg<en){
+    mid=(beg+en)/2;
+    if(A[mid]==k) return A[mid];
+    else if(A[mid]<k and A[mid+1]>k) return A[mid];
+    else if(A[mid]>k and A[mid-1]<k) return A[mid-1];
+    else if(A[mid]>k) bin(k,0,mid);
+    else bin(k,mid+1,en);
+}
+
+}
+void ini()
+{
+    ll k,i;
+    A[0]=1;
+    for(f=1;;++f)
+    {
+        k=A[f-1]*2;
+        if(k>num) break;              // go as required
+        A[f]=k;
+    }
+}
+int main()
+{
+    ll k,i,r;
+    ini();
+        scanf("%lld",&k);                   // f is 50 here
+        r=bin(k,0,f);
+        cout<<r;
+
+    return 0;
+}
