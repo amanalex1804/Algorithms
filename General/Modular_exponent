@@ -1,0 +1,12 @@
+ll exp(ll x,ll n)
+{
+    ll res=1;
+    while(n)
+    {
+        if(n&1)
+            res=((res%mod)*(x%mod))%mod;
+        x=((x%mod)*(x%mod))%mod;
+        n/=2;
+    }
+    return res%mod;
+}
