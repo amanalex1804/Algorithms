@@ -44,3 +44,4 @@ int main()
 	cout<<russianmult(18,2);
 	return 0;
 }
+ // log(b) complexity
