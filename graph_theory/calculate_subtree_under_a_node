@@ -1,0 +1,13 @@
+inline void dfs(int src,int parent){
+	vis[src]=1;int i,ver;
+	for(i=0;i<gr[src].size();++i){
+		ver=gr[src][i];
+		if(!vis[ver] and ver!=src)
+			dfs(ver,src);
+	}
+				sub[parent]+=sub[src];
+				par[src]=parent;
+}
+
+
+// initialise sub array with 1
