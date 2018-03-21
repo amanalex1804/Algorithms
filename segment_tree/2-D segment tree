@@ -1,0 +1,132 @@
+/*    https://www.youtube.com/watch?v=kKlZ9B3cS14  */
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#define sz 1030
+int n;                                          // input is square
+
+struct nod{
+	int segi[4*sz];                              //segi is for columns
+	int xi,yi,vi,l,r;
+	void buil(int node,int st,int en){
+		
+		if(st==en) {segi[node]=0;}
+		else{
+			int mid=st+(en-st)/2;
+			buil(2*node,st,mid);
+			buil(2*node+1,mid+1,en);
+			segi[node]=segi[2*node]+segi[2*node+1];
+		}	
+	}
+	
+	void merge(nod a,nod b){
+		
+		for(int i=0;i<=4*n;++i) segi[i]=a.segi[i]+b.segi[i];
+		
+	}
+	
+	void updat(int node,int st,int en){
+		
+		if(en<yi or st>yi or st>en) return;
+		if(st==en and st==yi) {segi[node]=vi;return;}
+		int mid=st+(en-st)/2;
+		updat(2*node,st,mid);
+		updat(2*node+1,mid+1,en);
+		segi[node]=segi[2*node]+segi[2*node+1];
+			
+	}
+	
+	int quer(int node,int st,int en){
+		
+		if(r<st or en<l or st>en) return 0;
+		if(l<=st and en<=r) return segi[node];
+		int mid=st+(en-st)/2;
+		return quer(2*node,st,mid)+quer(2*node+1,mid+1,en);
+		
+	}
+	
+	
+}seg[sz];
+
+inline void build(int node,int st,int en){
+	if(st==en) {
+		seg[node].xi=st;
+		seg[node].buil(1,1,n);
+		
+	}
+	else{
+		int mid=st+(en-st)/2;
+		build(2*node,st,mid);
+		build(2*node+1,mid+1,en);
+		seg[node].merge(seg[2*node],seg[2*node+1]);
+	}
+}
+
+inline void update(int node,int st,int en,int row,int col,int val){
+	
+	if(st>row or en<col or st>en) return;
+	
+	if(st==en and st==row) { seg[node].yi=col;seg[node].vi=val; seg[node].updat(1,1,n);return;	}
+	
+	int mid=st+(en-st)/2;
+	
+	update(2*node,st,mid,row,col,val);
+	update(2*node+1,mid+1,en,row,col,val);
+	seg[node].merge(seg[2*node],seg[2*node+1]);
+	
+		
+}
+// for x1--x2   (row)  // for column y1--y2
+int query(int node,int st,int en,int x1,int x2,int y1,int y2){
+	
+	
+	if( x2<st or en<x1 or st>en) return 0;
+	if(x1<=st and en<=x2) {
+		seg[node].l=y1;
+		seg[node].r=y2;
+		int temp=seg[node].quer(1,1,n);
+		return temp;
+		
+	}
+	int mid=st+(en-st)/2;
+	return query(2*node,st,mid,x1,x2,y1,y2)+query(2*node+1,mid+1,en,x1,x2,y1,y2);
+	
+	
+}
+
+
+int main(){
+	 ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	
+	int t;
+	cin>>t;
+	while(t--){
+		
+		cin>>n;
+		build(1,1,n);
+		string s;
+		while(1){
+			cin>>s;
+			if(s=="END") break;
+			if(s=="SET"){
+				int x,y,val;
+				cin>>x>>y>>val;
+				x+=1;y+=1;
+				update(1,1,n,x,y,val);	
+			}
+			else{
+				int x1,y1,x2,y2;
+				cin>>x1>>y1>>x2>>y2;
+				
+				cout<<query(1,1,n,x1+1,x2+1,y1+1,y2+1)<<"\n";
+			}	
+		}
+		
+	}
+	
+	
+	return 0;
+}
