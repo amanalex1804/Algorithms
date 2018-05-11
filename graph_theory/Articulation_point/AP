@@ -6,12 +6,13 @@ int ti=0;
 void dfs(int src,int par){
 	disc[src]=low[src]=ti+1;
 	ti+=1;
+	vis[src]=1;
 	int child=0;   // for root as child>1 means root is A.P
 	for(int i=0;i<=gr[src].size();++i){
 		int ver=gr[src][i];
-		if(ver==par) continue;
+		
 		if(!vis[ver]) {
-			child+=1;
+		child+=1;
 		   dfs(ver,src);
 		   low[src]=min(low[src],low[ver]);      // if not visited child then baap will be taken minimum
 		   if(low[ver]>=disc[src] and par!=-1 and par!=ver)              // for A.P no back edges in child .. if low is bada than disc of baap 
@@ -19,7 +20,7 @@ void dfs(int src,int par){
 		          
 		    if(child>1 and par==-1) AP.push_back(src);         // for root different subtree accesible only by root  
 	    }
-		else low[src]=min(low[src],disc[ver]);	 // if visited bacha then baap should look for its discovery 
+		else if(par!=ver and low[src]>disc[ver]) low[src]=min(low[src],disc[ver]);	 // if visited bacha then baap should look for its discovery 
 		                                         // if before there may be a chance of back edge
 	}
 }
