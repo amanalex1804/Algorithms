@@ -1,0 +1,79 @@
+/*
+ if any of edges in biconnected component is removed still every node can be reachable from other
+ */
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+bool vis[50];
+vector<int>gr[50];
+int tim=0;
+int disc[50],low[50];
+stack<pair<int,int> >st;
+int odd=0,even=0;
+
+inline void bicon(int src,int par){
+	vis[src]=1;
+	
+	disc[src]=low[src]=tim+1;
+	tim+=1;
+	int child=0;
+	for(int i=0;i<gr[src].size();++i){
+		int ver=gr[src][i];
+		if(par==ver) continue;
+		if(!vis[ver]){
+			st.push({ver,src});
+			child+=1;
+			bicon(ver,src);
+			low[src]=min(low[src],low[ver]);
+			if((par==-1 and child>1) or (low[ver]>=disc[src])){
+				pair<int,int>p1=make_pair(ver,src);
+				pair<int,int>p2=make_pair(src,ver);
+				set<int>s;
+				while(st.top()!=p1 and st.top()!=p2){
+					s.insert(st.top().first);
+					s.insert(st.top().second);
+					st.pop();
+				}
+				    s.insert(st.top().first);
+					s.insert(st.top().second);
+					st.pop();
+					if(s.size()){
+						if(s.size()&1) odd++;
+						else even++;
+					}
+			}
+		}
+		else if(low[src]>disc[ver]) { low[src]=min(low[src],disc[ver]); st.push({ver,src});		}
+	}
+	
+}
+
+int main(){
+	cin>>n>>m;
+	int x,y;
+	for(int i=0;i<m;++i){
+		cin>>x>>y;
+		gr[x].push_back(y);
+		gr[y].push_back(x);
+	}
+	for(int i=0;i<n;++i)
+		if(!vis[i])			
+			bicon(i,-1);
+			
+	set<int>s;
+	while(!st.empty()){
+		s.insert(st.top().first);
+		s.insert(st.top().second);
+		st.pop();
+	}
+   if(s.size()){
+	if(s.size()&1) odd+=1;
+	else even+=1;}
+		
+	
+	
+		
+	cout<<odd<<" "<<even;
+	return 0;
+}
