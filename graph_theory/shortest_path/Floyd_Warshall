@@ -1,0 +1,5 @@
+
+for(int k=1;k<=v;++k)              // always at the top
+for(int i=1;i<=v;++i)
+for(int j=1;i<=v;++j)
+mat[i][j]=min(mat[i][j],mat[i][k]+mat[k][j])
