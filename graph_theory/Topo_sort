@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+vector<int>gr[25];
+int in[25],out[25],vis[25];
+stack<int>st;
+vector<int>v;
+void dfs(int src){
+    vis[src]=1;
+    for(int i=0;i<gr[src].size();++i) if(!vis[gr[src][i]]) dfs(gr[src][i]);
+   st.push(src);
+}
+int main(){
+    cin>>n>>m;
+    for(int i=0,x,y;i<m;++i){
+        cin>>x>>y;
+        gr[x].push_back(y);
+        ++in[y];++out[x];
+    }
+
+    for(int i=1;i<=n;++i) 
+        sort(gr[i].rbegin(),gr[i].rend());
+    
+    for(int i=n;i>=1;--i) if(!vis[i]) dfs(i);
+        
+        while(!st.empty())
+       {
+         cout<<st.top()<<" ";
+         st.pop();
+       }
+       
+    return 0;
+}
