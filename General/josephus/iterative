@@ -1,0 +1,5 @@
+
+		ll ans=0;
+		// for recursion: (rek(n-1,k)+k-1)%n+1
+		
+		for(ll i=1;i<=n;++i) ans=((ans+d)%(i));
