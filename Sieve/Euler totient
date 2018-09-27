@@ -23,3 +23,4 @@ void calc_sieve()
 }
 // lp stores the minimum prime factor of a number
 // pr stores prime numbers
+/
