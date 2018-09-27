@@ -3,13 +3,13 @@ void calc_sieve()
     phi[1] = 1;
     for (int i = 2; i <= N; ++i)
     {
-        if (lp[i] == 0)
+        if (lp[i] == 0)         //prime
         {
             lp[i] = i;
             phi[i] = i - 1;
             pr.push_back(i);
         }
-        else
+        else        //composite
         {
             //Calculating phi
             if (lp[i] == lp[i / lp[i]])
@@ -21,3 +21,5 @@ void calc_sieve()
             lp[i * pr[j]] = pr[j];
     }
 }
+// lp stores the minimum prime factor of a number
+// pr stores prime numbers
