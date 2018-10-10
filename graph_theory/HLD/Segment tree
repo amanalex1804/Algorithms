@@ -1,0 +1,28 @@
+
+void upd(int node,int s,int e,int ind,int val){
+	
+	if(s==e){
+		seg[node]=val;
+		return;
+	}
+	int mid=(s+e)>>1;
+	if(ind<=mid) upd(2*node,s,mid,ind,val);
+	else upd(2*node+1,mid+1,e,ind,val);
+
+	seg[node]=max(seg[2*node],seg[2*node+1]);
+	
+}
+
+void segqry(int node,int s,int e,int l,int r){
+	
+	if(r<s or e<l) return -1;
+	if(l<=s and e<=r) return seg[node];
+	int mid=(s+e)>>1;
+	return max(segqry(2*node,s,mid,l,r),segqry(2*node+1,mid+1,e,l,r));
+}
+
+
+
+
+
+//according to need
