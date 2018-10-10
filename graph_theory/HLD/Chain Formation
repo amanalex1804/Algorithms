@@ -1,0 +1,59 @@
+#inclue<bits/stdc++.h>
+using namespace std;
+#define sz 100005
+vector<int>gr[sz];
+
+int no=0;  //count number of chains existing
+int head[sz]; // head of each chain
+int ind[sz];  // chain no. of a node
+int pos[sz];   // position of a node in its chain
+int csize[sz];  //size of a particular chain
+int sub[sz],par[sz];
+void dfs(int src,int parent){
+	sub[src]=1;
+	par[src]=parent;
+	for(int i=0;i<(int)gr[src].size();++i){
+		int ver=gr[src][i];
+		if(ver==parent) continue;
+		dfs(ver,src);
+	}
+	sub[parent]+=sub[src];
+}
+
+void hld(int src){
+	if(head[no]==-1) head[no]=src; 
+	ind[src]=no;
+	pos[src]=csize[no];
+	csize[no]++;
+	
+	int ind=-1,mx=0; // if ind=0  then index problem in subtree
+	
+	for(int i=0;i<(int)gr[src].size();++i){
+		int ver=gr[src][i];
+		if(ver==par[src]) continue;
+		if(sub[ver]>=mx){
+			mx=sub[ver];
+			ind=i;
+		}
+	}
+	
+	if(ind>=0) hld(gr[src][ind]);  //special child i.e subtree is mazmum
+	
+	for(int i=0;i<(int)gr[src].size();++i){       //other will be other chain
+		int ver=gr[src][i];
+		if(ver==par[src] or i==ind) continue;
+		++no;
+		hld(ver);
+	}
+	
+     
+}
+
+
+int main(){
+	
+	
+	
+	
+	return 0;
+}
