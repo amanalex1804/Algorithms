@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define sz 10005
+#define ll long long int
+ll mod = 1e9+9;
+
+string a,b;
+ll fa[sz+5],ba[sz+5],po[sz+5],dpa[sz+5];
+
+ll add(ll x,ll y){
+	ll z=(x%mod)+(y%mod);
+	return z%mod;
+}
+ll mul(ll x,ll y){
+	ll z=(x%mod)*(y%mod);
+	return z%mod;
+}
+
+int main(){
+	
+	po[0]=1;
+	for(int i=1;i<sz;++i) po[i]=mul(po[i-1],31);
+	
+	cin>>a>>b;
+	int a1=(int)a.size();
+	fa[0]=(int)a[0];
+	
+	for(int i=1;i<a1;++i){
+		int ch = (int)a[i];
+		fa[i]=add(mul(fa[i-1],31),ch);
+	}
+	
+	ba[a1-1]=(int)a[a1-1];
+	for(int i=a1-2;i>=0;--i){
+		int ch = (int)a[i];
+		ba[i] = add(mul(ba[i+1],31),ch);
+	}
+	
+	for(int i=0;i<a1;++i) cout<<fa[i]<<" ";cout<<endl;
+	
+	for(int i=0;i<a1;++i) cout<<ba[i]<<" ";cout<<endl;
+	
+	for(int i=0;i<a1;++i){
+		for(int l=a1-i;l>=1;--l){
+			
+			ll x = fa[i+l-1];	
+			if(i) x=(x-mul(fa[i-1],po[l])+mod)%mod;
+			
+			ll y = ba[i];
+			
+			if(i+l<a1) y = (y-mul(ba[i+l],po[l])+mod)%mod;
+			cout<<" for "<<i<<" "<<x<<" "<<y<<endl;
+			
+			if(x==y){
+				dpa[i]=l;
+				break;
+			}
+			
+			
+		}
+	}
+	
+	for(int i=0;i<a1;++i) cout<<dpa[i]<<" ";
+	
+	
+	return 0;
+}
+
