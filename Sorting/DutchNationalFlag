@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int A[] = {0,1,1,0,1,2,1,2,0,0,0,1};
+int main(){
+	
+	int sz = sizeof(A)/sizeof(A[0]);
+    int low =0 ,mid =0 ,high =sz-1;
+    
+    while(mid<=high){
+    	switch(A[mid]){
+    		case 0 :
+    			swap(A[low],A[mid]);
+    			++low,++mid;
+    			break;
+    		case 1 :
+    			++mid;
+    			break;
+    		case 2 :
+    			swap(A[mid],A[high]);
+    			--high;
+    			break;	
+    			
+				
+		}
+	}
+	for(int i=0;i<sz;++i) cout<<A[i]<<" ";
+	
+	
+	return 0;
+}
+
+//Output : 0 0 0 0 0 1 1 1 1 1 2 2
