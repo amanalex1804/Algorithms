@@ -1,0 +1,122 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+typedef unsigned long long int ull;
+typedef  pair<int,int>P;
+
+#define mm(xx) memset(xx,0,sizeof(xx))
+#define pb push_back
+
+#define scd(xx) scanf("%d",&xx)
+#define scl(xx) scanf("%lld",&xx)
+#define scl2(xx,uu) scanf("%lld%lld",&xx,&uu);
+#define scd2(xx,uu) scanf("%d%d",&xx,&uu)
+#define rep(xx,uu,ee) for(xx=uu;xx<ee;++xx)
+
+//  int dx[]={1,0,-1,0};int dy[]={0,1,0,-1};                           //4 directions
+//  int dx[]={1,1,0,-1,-1,-1,0,1};int dy[]={0,1,1,1,0,-1,-1,-1};      //8 directions
+//  int dx[]={2,1,-1,-2,-2,-1,1,2}; int dy[]={1,2,2,1,-1,-2,-2,-1};       //knight's move
+
+#define SIZ 4000001
+#define INF 999999
+#define T int t;for(scanf("%d",&t);t--;)
+#define mod 1000000007
+#define SYNC  ios_base::sync_with_stdio(false);  cin.tie(NULL);
+
+vector<char>ans;    //ans vector is made to store the initial character of the string
+struct Trie
+{
+	bool flag;                     // to know that the word exists or not
+	char ch;                    //stores the character
+	map<char,Trie*> M;            // like link list
+};
+Trie* getnewnode()                 // making new nide like constructor
+{
+	Trie* node=new Trie();
+	node->flag=false;                // not a word initially
+	return node;
+}
+
+void ins(string str,Trie *&head)      // head is called by reference
+{
+	if(head==NULL) head=getnewnode();       //if head is null by that starting alphabet it wil create one
+	
+	Trie *curr=head;
+	int i,l;
+	l=str.size();
+	for(i=0;i<l;++i)           //iterate throught the whole string
+	{
+		if(curr->M.find(str[i])==curr->M.end())  {curr->M[str[i]]=getnewnode();curr->ch=str[i];    // if the string is not pre-existing
+		if(i==0) ans.pb(str[i]);		}  // storing the initials of the string 
+		curr=curr->M[str[i]];		
+	}
+	curr->flag=true;	 //marking the end of word
+}
+void print(Trie *head)
+{
+	int i=0;	
+	while(i<ans.size())      // go through all initials
+	{
+		head->ch=ans[i];
+		Trie* curr=head;
+	while(curr!=NULL)          // until a null is obtained
+	{
+		cout<<curr->ch<<endl;
+		if(curr->flag==true) cout<<" a word here \n";
+		curr=curr->M[curr->ch];
+	}
+	++i;
+}
+}
+void search(string str,Trie *head)
+{
+	Trie *curr=head;
+	bool flag=true;
+	int i,l;
+	l=str.size();
+	for(i=0;i<l;++i)
+	{
+		
+		curr=curr->M[str[i]];        //going via character
+		if(curr==NULL)                 //if the path is ended
+		{
+			cout<<"DOES'NT EXIST\n"; 			
+			flag=false;
+			break;
+		}
+		
+	}
+	if(flag)
+	{
+		if(curr->flag==true) cout<<"DOES EXIST\n";
+		else cout<<"DOES'NT EXIST\n";
+	}
+	
+}
+
+int main()
+{
+	
+    Trie* head=NULL;       //head will store first character of distinct strings
+    
+	ins("hell",head);           //head wll be called byreference
+	
+	cout<<head->ch<<endl;
+	
+	ins("abc",head);
+	cout<<head->ch<<endl;
+	
+	ins("helloworld",head);
+	
+
+       print(head);
+       
+       cout<<"-------\n";
+       search("he",head);
+       search("dude",head);
+       search("helloworldd",head);
+       search("helloworld",head);
+       
+
+	return 0;
+}
