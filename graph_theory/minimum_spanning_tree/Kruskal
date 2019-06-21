@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define inf INT_MAX
+
+struct abc{
+    int x,y,z;
+};
+
+int par(int x,int parent[]){
+    while(parent[x]!=x and parent[parent[x]]!=parent[x])
+         parent[x]=parent[parent[x]];
+    
+    return parent[x];         
+}
+
+bool comp(struct abc&a,struct abc &b){
+    return a.z>b.z;
+}
+
+int main()
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int t;
+	cin>>t;
+
+	while(t--){
+	    int n,m,k;cin>>n>>m>>k;
+	    int parent[n+1];
+	    for(int i=0;i<n;++i) parent[i]=i;
+	    vector<struct abc>edge;
+	    
+	    for(int i=0,x,y,z;i<m;++i){
+	        cin>>x>>y>>z;
+	        struct abc temp;
+	        temp.x = x;
+	        temp.y = y;
+	        temp.z = z;
+	        edge.push_back(temp);
+	    }
+	    sort(edge.begin(),edge.end(),comp);
+	    
+	    struct abc temp;
+	    int ans = 0;
+	    for(int i=0;i<(int)edge.size();++i){
+	        temp = edge[i];
+	        int x = temp.x;
+	        int y = temp.y;
+	        int w = temp.z;
+	        int x1 = par(x,parent); int y1 = par(y,parent);
+	        if(x==y) continue;
+	        ans+=w;
+	        parent[x1]=y1;
+	    }
+	    if(ans>=k) cout<<1<<"\n";
+	    else cout<<0<<"\n";
+	    
+	}
+	return 0;
+}
