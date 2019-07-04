@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void printLIS(int A[],int n){
+	/*
+	Let arr[0..n-1] be the input array. 
+	We define vector L such that L[i] is itself is a vector
+	 that stores LIS of arr that ends with arr[i]. 
+	 For example, for array [3, 2, 6, 4, 5, 1],
+	
+	L[0]: 3
+	L[1]: 2
+	L[2]: 2 6
+	L[3]: 2 4
+	L[4]: 2 4 5
+	L[5]: 1
+	*/
+	
+	vector<vector<int> >L(n);
+	
+	// L[i] contains the longest increasing subsequence upto index i
+		
+	L[0].push_back(A[0]);
+	
+	for(int i=1;i<n;++i){
+		
+		for(int j=i-1;j>=0;--j){
+			
+			if((A[i]>A[j]) and  (L[i].size()<L[j].size()+1)) 
+			  L[i]=L[j];  // copying vector
+			
+		}
+		L[i].push_back(A[i]);
+	}
+	
+	for(int i=0;i<n;++i){
+		for(int j=0;j<(int)L[i].size();++j) cout<<L[i][j]<<" ";cout<<endl;
+	}
+	
+	
+}
