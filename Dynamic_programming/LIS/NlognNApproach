@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+//// ONLY FOR STRICTLY INCREASING SEQUENCE
+
+int main()
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int t;
+	cin>>t;
+
+	while(t--){
+	    int n;cin>>n;
+	    int A[n],dp[n],lis[n],ans=0;
+	    for(int i=0;i<n;++i) cin>>A[i],dp[i]=INT_MAX,lis[i]=1;
+	    
+      // dp is active list 
+	    for(int i=0;i<n;++i){
+	        int ind = lower_bound(dp,dp+n,A[i])-dp;
+	        dp[ind]=A[i];
+	        lis[i]+=ind;
+	       
+	    }
+	    
+	   for(int i=0;i<n;++i) cout<<dp[i]<<" ";cout<<endl;  // It shows the sequence of LIS
+	    
+	   for(int i=0;i<n;++i) cout<<lis[i]<<" ";cout<<endl;  // Shows the length of lis upto index i
+	   
+	   
+	}
+	return 0;
+}
+
+// 
+In general, we have set of active lists of varying length. We are
+adding an element A[i] to these lists. We scan the lists (for end elements) in 
+decreasing order of their length. We will verify the end elements of all the lists to
+find a list whose end element is smaller than A[i] (floor value).
+
+Our strategy determined by the following conditions,
+
+1. If A[i] is smallest among all end 
+   candidates of active lists, we will start 
+   new active list of length 1.
+2. If A[i] is largest among all end candidates of 
+  active lists, we will clone the largest active 
+  list, and extend it by A[i].
+
+3. If A[i] is in between, we will find a list with 
+  largest end element that is smaller than A[i]. 
+  Clone and extend this list by A[i]. We will discard all
+  other lists of same length as that of this modified list.
