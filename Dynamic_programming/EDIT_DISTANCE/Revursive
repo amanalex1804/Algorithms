@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int fn(int i,int j,int n,int m,string a,string b,int **dp){
+    if(i>=n) return (m-j);
+    if(j>=m) return (n-i);
+    int &ret = dp[i][j];
+     if(ret!=-1) return ret;
+    
+    if(a[i]==b[j]) ret = fn(i+1,j+1,n,m,a,b,dp);
+    else ret = min(fn(i+1,j,n,m,a,b,dp),min(fn(i,j+1,n,m,a,b,dp),fn(i+1,j+1,n,m,a,b,dp)))+1;
+    return ret;
+}
+
+int main()
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int t;
+	cin>>t;
+
+	while(t--){
+	    int n,m;cin>>n>>m;
+	    string a,b;cin>>a>>b;
+	    int **dp;
+	    dp = new int *[n+1];
+	    for(int i=0;i<=n;++i) dp[i] = new int[m+1];
+	    
+	    for(int i=0;i<=n;++i)
+	    for(int j=0;j<=m;++j)
+	    dp[i][j] = -1;
+	    
+	    cout<<fn(0,0,n,m,a,b,dp)<<"\n";
+	    
+	
+	}
+	return 0;
+}
