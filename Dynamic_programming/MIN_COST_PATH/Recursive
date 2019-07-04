@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+int min(int x, int y, int z) 
+{ 
+   if (x < y) 
+      return (x < z)? x : z; 
+   else
+      return (y < z)? y : z; 
+} 
+int dp[22][22];
+int minCost(int cost[][22],int m,int n,int sz){  
+    if (n < 0 || m < 0 || n>=sz || m>=sz) 
+      return INT_MIN; 
+   else if (m == 0) 
+      return cost[m][n]; 
+      int &ret = dp[m][n];
+      if(ret!=-1) return ret;
+      return ret = cost[m][n] + max( max(minCost(cost,m-1,n+1,sz),minCost(cost, m-1, n-1,sz)), minCost(cost, m-1, n,sz)); 
+    
+}
+
+
+int main()
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int t;
+	cin>>t;
+
+	while(t--){
+	    int n;cin>>n;
+	    int A[n+2][22];
+	    memset(A,0,sizeof(A));
+	    for(int i=0;i<n;++i)
+	    for(int j=0;j<n;++j)
+	    cin>>A[i][j],dp[i][j]=-1;
+	    int ans = 0;
+	    for(int i=n-1;i>=0;--i){
+	        int x = minCost(A,n-1,i,n);
+	        ans = max(ans,x);
+	        
+	    }
+	    
+	   cout<<ans<<"\n";
+	    
+	
+	}
+	return 0;
+}
