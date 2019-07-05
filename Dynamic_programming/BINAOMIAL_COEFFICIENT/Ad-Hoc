@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define mod 1000000007
+ll exp(ll x,ll n,ll m){
+    ll r = 1;
+    while(n){
+        if(n&1) r = ((x%mod)*(r%mod))%mod;
+        x = ((x%mod)*(x%mod))%mod;
+        n/=2;
+    }
+    return r;
+}
+int main()
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int t;
+	cin>>t;
+
+	while(t--){
+	    
+	    int n,r;cin>>n>>r;
+	    if(r>n){
+	        cout<<0<<"\n";
+	        continue;
+	    }
+	    ll p=1,q=1,s;
+	    for(int i=1;i<=n;++i) p=((p%mod)*(i%mod))%mod;
+	    for(int i=1;i<=r;++i) q=((q%mod)*(i%mod))%mod;
+	    for(int i=1;i<=n-r;++i) q=((q%mod)*(i%mod))%mod;
+	    s=exp(q,mod-2,mod);
+	    p=((p%mod)*(s%mod))%mod;
+	    cout<<p<<"\n";
+	    
+	
+	}
+	return 0;
+}
