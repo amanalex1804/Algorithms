@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void printMatrix(int i,int j,int **B,char &ch){
+    if(i==j){
+        cout<<ch++;
+        return;
+    }
+    cout<<"(";
+    
+    
+    // Recursively put brackets around subexpression 
+    // from i to bracket[i][j]. 
+    // Note that "*((bracket+i*n)+j)" is similar to 
+    // bracket[i][j] 
+    printMatrix(i,B[i][j],B,ch);
+    
+    
+    // Recursively put brackets around subexpression 
+    // from bracket[i][j] + 1 to j. 
+    printMatrix(B[i][j]+1,j,B,ch);
+    cout<<")";
+}
+
+int main()
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int t;
+	cin>>t;
+
+	while(t--){
+	    int n;cin>>n;
+	    int A[n];
+	    for(int i=0;i<n;++i) cin>>A[i];  // Array [i-1,i] forms a matrix
+	    int dp[n+1][n+1];
+	    int **B;
+	    B = new int*[n+1];
+	    for(int i=0;i<=n;++i) B[i]=new int[n+1];
+	    
+	    for(int i=1;i<n;++i) dp[i][i] = 0;  // Single matrix is 0 
+	    
+	    
+	    for(int gap=2;gap<n;++gap){
+	        for(int i=1;i<n-gap+1;++i){     // starting from 1
+	            int j = i+gap-1;
+	            dp[i][j] = INT_MAX;
+	            for(int k=i;k<j;++k){
+	                int p = dp[i][k]+dp[k+1][j]+(A[i-1]*A[k]*A[j]);
+	                if(p<dp[i][j]){
+	                    dp[i][j]=p;
+	                    B[i][j]=k;
+	                }
+	            }
+	        }
+	    }
+	    char ch = 'A';
+	    printMatrix(1,n-1,B,ch);
+	    cout<<"\n";
+	    
+	
+	}
+	return 0;
+}
