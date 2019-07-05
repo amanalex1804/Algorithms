@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define mod 1000000007
+
+ll fn(int i,int j,ll **dp){
+    
+    if(j==0 or j==i) return 1;
+    
+    ll &ret = dp[i][j];
+    if(ret!=-1) return ret;
+    
+    return ret = ((fn(i-1,j-1,dp)%mod)+(fn(i-1,j,dp)%mod))%mod;
+}
+
+int main()
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int t;
+	cin>>t;
+
+	while(t--){
+	    
+	    int n,r;cin>>n>>r;
+	    if(r>n) {
+	        cout<<0<<"\n";
+	        continue;
+	    }
+	    ll **dp;
+	    dp = new ll *[n+1];
+	    for(int i=0;i<=n;++i) dp[i] = new ll [r+1];
+	    
+	    for(int i=0;i<=n;++i)
+	    for(int j=0;j<=r;++j)
+	    dp[i][j] = -1;
+	    
+	    cout<<fn(n,r,dp)<<"\n";
+	
+	}
+	return 0;
+}
