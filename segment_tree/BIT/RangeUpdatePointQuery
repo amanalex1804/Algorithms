@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define SZ 10005
+
+int bit[SZ];
+
+void pre(int n){
+	for(int i=0;i<=n;++i) bit[i] = 0;
+}
+
+void upd(int idx,int n,int v){
+	while(idx<=n){
+		bit[idx]+=v;
+		idx+=(idx&(-idx));
+	}
+}
+
+int qry(int idx){
+	int ret = 0;
+	while(idx>0){
+		ret+= bit[idx];
+		idx-=(idx&(-idx));
+	}
+	return ret;
+}
+
+void r_upd(int i,int j,int n,int v){
+	upd(i,n,v);
+	upd(j+1,n,-v);
+}
+
+int main(){
+	 ios_base::sync_with_stdio(false);cin.tie(NULL);
+	int t;cin>>t;
+	while(t--){
+		int n,u;cin>>n>>u;
+		pre(n+1);
+		for(int i=1,l,r,v;i<=u;++i){
+			cin>>l>>r>>v;
+			r_upd(l+1,r+1,n,v);
+		}
+		
+		int q;cin>>q;
+		while(q--){
+			int m;cin>>m;
+			cout<<qry(m+1)<<"\n";
+		}
+	}
+	
+	
+	return 0;
+}
