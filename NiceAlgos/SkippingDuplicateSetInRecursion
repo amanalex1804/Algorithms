@@ -1,0 +1,64 @@
+
+Problem: https://leetcode.com/problems/combination-sum-ii/description/
+
+class Solution {
+public:
+    vector<vector<int>>ret;
+
+
+    void fn(int idx, vector<int>&vec, vector<int>&A, int target){
+
+        if(target==0){
+            ret.push_back(vec);
+            return;
+        }
+
+        for(int i=idx;i<(int)A.size() and A[i]<=target;++i){
+            // logic to skip duplicate
+            if(i>idx and A[i]==A[i-1]) continue;
+
+            vec.push_back(A[i]);
+            fn(i+1, vec, A, target-A[i]);
+            vec.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+
+        vector<int>tmp;
+        sort(candidates.begin(), candidates.end());
+        fn(0, tmp, candidates, target);
+        return ret;
+
+        
+    }
+};
+
+
+
+============ CHAT - GPT=============
+
+The logic to skip duplicates in the "Combination Sum II" problem is crucial to avoid generating duplicate combinations in the result. This logic ensures that the same number is not used more than once in the same combination and that you don't repeat combinations that would otherwise be identical if the same number is used multiple times.
+
+Here's how the logic works:
+
+1. Sort the candidates array:
+   First, the candidates array is sorted in ascending order. Sorting is essential because it brings duplicates together, making it easier to identify and skip them during the combination generation process.
+
+2. Skip duplicates within the same level of recursion:
+   Inside the `backtrack` function, when iterating through the candidates, you check for duplicates and skip them. Here's the key part of the code responsible for this:
+
+   ```cpp
+   if (i > start && candidates[i] == candidates[i - 1]) {
+       continue;
+   }
+   ```
+
+   This code checks if the current candidate `candidates[i]` is the same as the previous candidate `candidates[i - 1]` and if `i` is greater than `start`. If these conditions are met, it means you have already explored combinations that include the same number, so you skip it to avoid duplicates.
+
+   For example, consider candidates `[1, 1, 2, 2]` and a target of `3`. Without this logic, you would generate duplicate combinations like `[1, 2]` and `[2, 1]`. With this logic, you skip the second appearance of `1` and `2`, ensuring that only unique combinations are generated.
+
+3. Increment the `start` index:
+   When you recurse into the next level, you increment the `start` index to avoid using the same number in the combination again. This ensures that each number can only be used once in a single combination.
+
+By implementing this logic, you ensure that the algorithm generates only unique combinations and avoids duplicate results, which is a requirement for solving the "Combination Sum II" problem correctly.
